@@ -3,6 +3,7 @@ import UserDetails from './components/UserDetails';
 import UserList from './components/UserList';
 import InputSearch from './components/InputSearch';
 import SelectSort from './components/SelectSort';
+import Stack from '@mui/material/Stack';
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -46,10 +47,11 @@ if (loading) {
 
   return (
     <div>
-      <InputSearch search={search} setSearch={setSearch}/>
-      <UserList users={filteredUsers} onSelectUser={setSelectedUser}/>
-      <SelectSort sortType={sortType} setSortType={setSortType}/>
-      <UserDetails user={selectedUser}/>
+      <Stack direction="row" spacing={2} alignItems='center'>
+        <InputSearch search={search} setSearch={setSearch}/>
+        <SelectSort sortType={sortType} setSortType={setSortType}/>
+      </Stack>
+      <UserList users={filteredUsers} onSelectUser={setSelectedUser} mySelectedUser={selectedUser}/>      
     </div>
  )
 }
