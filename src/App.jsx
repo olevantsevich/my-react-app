@@ -4,6 +4,12 @@ import UserList from './components/UserList';
 import InputSearch from './components/InputSearch';
 import SelectSort from './components/SelectSort';
 import Stack from '@mui/material/Stack';
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import TextField from "@mui/material/TextField";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -11,6 +17,11 @@ function App() {
   const [selectedUser, setSelectedUser] = useState (null);
   const [search, setSearch] = useState('');
   const [sortType, setSortType] = useState('');
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+  });
 
   useEffect (() => {
   setLoading (true);
@@ -45,13 +56,72 @@ if (loading) {
   return <p>Loading...</p>
 }
 
+const handleOpen = () => {
+  setOpen(true);
+  };
+
+const handleClose = () => {
+  setOpen(false);
+  setForm({
+    name: "",
+    email: "",
+  });
+};
+
+const handleChange = (e) => {
+  setForm({
+    ...form,
+    [e.target.name]: e.target.value,
+  });
+};
+
+const handleSave = () => {
+  const newUser = {
+    id: Date.now(),
+    name: form.name,
+    email: form.email,
+  };
+
+  setUsers([...users, newUser]);
+  handleClose();
+};
+
+
   return (
     <div>
       <Stack direction="row" spacing={2} alignItems='center'>
         <InputSearch search={search} setSearch={setSearch}/>
         <SelectSort sortType={sortType} setSortType={setSortType}/>
+        <Button variant="outlined" onClick={handleOpen}>Добавить пользователя</Button>
       </Stack>
-      <UserList users={filteredUsers} onSelectUser={setSelectedUser} mySelectedUser={selectedUser}/>      
+      <UserList users={filteredUsers} onSelectUser={setSelectedUser} mySelectedUser={selectedUser}/>   
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Добавить пользователя</DialogTitle>
+        <DialogContent>
+          <TextField
+          margin="dense"
+          label="Имя"
+          name="name"
+          fullWidth
+          value={form.name}
+          onChange={handleChange}
+          />
+          <TextField
+          margin="dense"
+          label="Email"
+          name="email"
+          type="email"
+          fullWidth
+          value={form.email}
+          onChange={handleChange}
+          />
+        </DialogContent>
+        
+        <DialogActions>
+          <Button onClick={handleClose}>Отмена</Button>
+          <Button variant="contained" onClick={handleSave}>Сохранить</Button>
+        </DialogActions>
+      </Dialog>   
     </div>
  )
 }

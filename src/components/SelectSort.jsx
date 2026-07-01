@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl';
 function SelectSort (props) {
   return (
     <Box sx={{ minWidth: 200 }}>
-      <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+      <FormControl sx={{ minWidth: 200 }} size="small">
         <InputLabel id="sort-label">Сортировка</InputLabel>
         <Select
           labelId="sort-label"
