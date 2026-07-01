@@ -5,11 +5,7 @@ import InputSearch from './components/InputSearch';
 import SelectSort from './components/SelectSort';
 import Stack from '@mui/material/Stack';
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import TextField from "@mui/material/TextField";
+import AddUserDialog from './components/AddUserDialog';
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -18,10 +14,6 @@ function App() {
   const [search, setSearch] = useState('');
   const [sortType, setSortType] = useState('');
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-  });
 
   useEffect (() => {
   setLoading (true);
@@ -62,18 +54,9 @@ const handleOpen = () => {
 
 const handleClose = () => {
   setOpen(false);
-  setForm({
-    name: "",
-    email: "",
-  });
 };
 
-const handleChange = (e) => {
-  setForm({
-    ...form,
-    [e.target.name]: e.target.value,
-  });
-};
+
 
 const handleSave = () => {
   const newUser = {
@@ -95,33 +78,7 @@ const handleSave = () => {
         <Button variant="outlined" onClick={handleOpen}>Добавить пользователя</Button>
       </Stack>
       <UserList users={filteredUsers} onSelectUser={setSelectedUser} mySelectedUser={selectedUser}/>   
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Добавить пользователя</DialogTitle>
-        <DialogContent>
-          <TextField
-          margin="dense"
-          label="Имя"
-          name="name"
-          fullWidth
-          value={form.name}
-          onChange={handleChange}
-          />
-          <TextField
-          margin="dense"
-          label="Email"
-          name="email"
-          type="email"
-          fullWidth
-          value={form.email}
-          onChange={handleChange}
-          />
-        </DialogContent>
-        
-        <DialogActions>
-          <Button onClick={handleClose}>Отмена</Button>
-          <Button variant="contained" onClick={handleSave}>Сохранить</Button>
-        </DialogActions>
-      </Dialog>   
+      <AddUserDialog open={open} onClose={handleClose} onClose={handleClose} onSave={handleSave}/>   
     </div>
  )
 }
